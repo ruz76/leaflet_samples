@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css" />
+        <link rel="stylesheet" type="text/css" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/label.css" />
+        <link rel="stylesheet" href="css/MarkerCluster.css" />
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css" />
+        <link rel="stylesheet" href="css/leaflet.draw.css" />
+        <link rel="stylesheet" href="css/leaflet.measurecontrol.css" />
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/label.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/leaflet.draw.js"></script>
+        <script src="js/leaflet.measurecontrol.js"></script>
+        <script src="./resources/Autolinker.min.js"></script>
+        <script src="js/leaflet.markercluster.js"></script>
+        <style>
+            #map {
+                width: 1308px;
+                height: 670px;
+            }
+        </style>
+        <title></title>
+    </head>
+    <body>
+		<h1>Trasa do práce</h1>
+		<h2>15.3.2016, Dolní Lhota : Ostrava - Poruba</h2>
+		<p>Time axis: <input type="range" id="date" min="1" max="3143"/><input id="datetxt"/></p>
+        <div id="map">
+        </div>
+        <script src="data/json_cestaspojnicestaticka0.js"></script>
+        <script src="data/json_cestaspojnice1.js"></script>
+        <script src="data/json_cesta2.js"></script>
+        
+        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script>
+        $(document).ready(function(){
+			$('input').change(function(){
+				$('#datetxt').val($('#date').val());
+				setVisibility();
+			});
+			$('#datetxt').val($('#date').val());
+	});
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        var map = L.map('map', {
+            measureControl:true,
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[49.8175656144,18.090919481],[49.8551103856,18.164322881]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        var feature_group = new L.featureGroup([]);
+        var bounds_group = new L.featureGroup([]);
+        var raster_group = new L.LayerGroup([]);
+        var basemap0 = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            maxZoom: 28
+        });
+        basemap0.addTo(map);
+        var layerOrder = new Array();
+        function stackLayers() {
+            for (index = 0; index < layerOrder.length; index++) {
+                map.removeLayer(layerOrder[index]);
+                map.addLayer(layerOrder[index]);
+            }
+        }
+        function restackLayers() {
+            for (index = 0; index < layerOrder.length; index++) {
+                layerOrder[index].bringToFront();
+            }
+        }
+        layerControl = L.control.layers({},{},{collapsed:false});
+        function pop_cestaspojnicestaticka0(feature, layer) {
+            var popupContent = '<table><tr><th scope="row">ids</th><td>' + (feature.properties['ids'] !== null ? Autolinker.link(String(feature.properties['ids'])) : '') + '</td></tr><tr><th scope="row">id2</th><td>' + (feature.properties['id2'] !== null ? Autolinker.link(String(feature.properties['id2'])) : '') + '</td></tr><tr><th scope="row">id1</th><td>' + (feature.properties['id1'] !== null ? Autolinker.link(String(feature.properties['id1'])) : '') + '</td></tr><tr><th scope="row">delka</th><td>' + (feature.properties['delka'] !== null ? Autolinker.link(String(feature.properties['delka'])) : '') + '</td></tr><tr><th scope="row">cas</th><td>' + (feature.properties['cas'] !== null ? Autolinker.link(String(feature.properties['cas'])) : '') + '</td></tr><tr><th scope="row">casod</th><td>' + (feature.properties['casod'] !== null ? Autolinker.link(String(feature.properties['casod'])) : '') + '</td></tr><tr><th scope="row">casdo</th><td>' + (feature.properties['casdo'] !== null ? Autolinker.link(String(feature.properties['casdo'])) : '') + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function doStylecestaspojnicestaticka0(feature) {
+            return {
+                weight: 1.04,
+                color: '#bd0b1a',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                opacity: 1.0
+            };
+        }
+        var json_cestaspojnicestaticka0JSON = new L.geoJson(json_cestaspojnicestaticka0, {
+            onEachFeature: pop_cestaspojnicestaticka0,
+            style: doStylecestaspojnicestaticka0
+        });
+        layerOrder[layerOrder.length] = json_cestaspojnicestaticka0JSON;
+        bounds_group.addLayer(json_cestaspojnicestaticka0JSON);
+        feature_group.addLayer(json_cestaspojnicestaticka0JSON);
+		function setVisibilitycestaspojnicestaticka0() {   
+		 for (var row=0; row<1000; row++) {
+		  if ( typeof(json_cestaspojnicestaticka0JSON._layers[row])=='undefined') continue;
+		  s = doStylecestaspojnicestaticka0(json_cestaspojnicestaticka0JSON._layers[row].feature);
+		  json_cestaspojnicestaticka0JSON._layers[row].setStyle(s);
+		 }      
+		};
+        function pop_cestaspojnice1(feature, layer) {
+            var popupContent = '<table><tr><th scope="row">ids</th><td>' + (feature.properties['ids'] !== null ? Autolinker.link(String(feature.properties['ids'])) : '') + '</td></tr><tr><th scope="row">id2</th><td>' + (feature.properties['id2'] !== null ? Autolinker.link(String(feature.properties['id2'])) : '') + '</td></tr><tr><th scope="row">id1</th><td>' + (feature.properties['id1'] !== null ? Autolinker.link(String(feature.properties['id1'])) : '') + '</td></tr><tr><th scope="row">delka</th><td>' + (feature.properties['delka'] !== null ? Autolinker.link(String(feature.properties['delka'])) : '') + '</td></tr><tr><th scope="row">cas</th><td>' + (feature.properties['cas'] !== null ? Autolinker.link(String(feature.properties['cas'])) : '') + '</td></tr><tr><th scope="row">casod</th><td>' + (feature.properties['casod'] !== null ? Autolinker.link(String(feature.properties['casod'])) : '') + '</td></tr><tr><th scope="row">casdo</th><td>' + (feature.properties['casdo'] !== null ? Autolinker.link(String(feature.properties['casdo'])) : '') + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function doStylecestaspojnice1(feature) {
+            s =  {
+                weight: 8.24,
+                color: '#ba9252',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                opacity: 1.0
+            };
+	        if (feature.properties.casod <= $('#date').val() && feature.properties.casdo >= $('#date').val()) {
+				s['opacity'] = 1.0;
+				s['fillOpacity'] = 1.0;			
+			} else {
+				s['opacity'] = 0.0;
+				s['fillOpacity'] = 0.0;
+			}
+			return s;
+        }
+        var json_cestaspojnice1JSON = new L.geoJson(json_cestaspojnice1, {
+            onEachFeature: pop_cestaspojnice1,
+            style: doStylecestaspojnice1
+        });
+        layerOrder[layerOrder.length] = json_cestaspojnice1JSON;
+        bounds_group.addLayer(json_cestaspojnice1JSON);
+        feature_group.addLayer(json_cestaspojnice1JSON);
+		function setVisibilitycestaspojnice1() {   
+		 for (var row=0; row<1000; row++) {
+		  if ( typeof(json_cestaspojnice1JSON._layers[row])=='undefined') continue;
+		  s = doStylecestaspojnice1(json_cestaspojnice1JSON._layers[row].feature);
+		  json_cestaspojnice1JSON._layers[row].setStyle(s);
+		 }      
+		};
+        function pop_cesta2(feature, layer) {
+            var popupContent = '<table><tr><th scope="row">link1_href</th><td>' + (feature.properties['link1_href'] !== null ? Autolinker.link(String(feature.properties['link1_href'])) : '') + '</td></tr><tr><th scope="row">link1_text</th><td>' + (feature.properties['link1_text'] !== null ? Autolinker.link(String(feature.properties['link1_text'])) : '') + '</td></tr><tr><th scope="row">length</th><td>' + (feature.properties['length'] !== null ? Autolinker.link(String(feature.properties['length'])) : '') + '</td></tr><tr><th scope="row">cas</th><td>' + (feature.properties['cas'] !== null ? Autolinker.link(String(feature.properties['cas'])) : '') + '</td></tr><tr><th scope="row">cas_agg</th><td>' + (feature.properties['cas_agg'] !== null ? Autolinker.link(String(feature.properties['cas_agg'])) : '') + '</td></tr></table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function doStylecesta2(feature) {
+            return {
+                radius: 2.0,
+                fillColor: '#a771a1',
+                color: '#000000',
+                weight: 0.0,
+                opacity: 1.0,
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                fillOpacity: 1.0
+            }
+        }
+        function doPointToLayercesta2(feature, latlng) {
+            return L.circleMarker(latlng, doStylecesta2(feature))
+        }
+        var json_cesta2JSON = new L.geoJson(json_cesta2, {
+            onEachFeature: pop_cesta2, 
+            pointToLayer: doPointToLayercesta2
+            });
+        layerOrder[layerOrder.length] = json_cesta2JSON;
+
+        bounds_group.addLayer(json_cesta2JSON);
+        feature_group.addLayer(json_cesta2JSON);
+		function setVisibilitycesta2() {   
+		 for (var row=0; row<1000; row++) {
+		  if ( typeof(json_cesta2JSON._layers[row])=='undefined') continue;
+		  s = doStylecesta2(json_cesta2JSON._layers[row].feature);
+		  json_cesta2JSON._layers[row].setStyle(s);
+		 }      
+		};
+        raster_group.addTo(map);
+        feature_group.addTo(map);
+        raster_group.addTo(map);
+        feature_group.addTo(map);
+        function setVisibility() {
+            setVisibilitycestaspojnicestaticka0();
+            setVisibilitycestaspojnice1();
+            setVisibilitycesta2();};
+        var baseMaps = {'OSM Standard': basemap0};
+        L.control.layers(baseMaps,{'<img src="legend/cesta2.png" /> cesta': json_cesta2JSON,'<img src="legend/cestaspojnice1.png" /> cesta_spojnice': json_cestaspojnice1JSON,'<img src="legend/cestaspojnicestaticka0.png" /> cesta_spojnice_staticka': json_cestaspojnicestaticka0JSON,},{collapsed:false}).addTo(map);
+        L.control.scale({options: {position: 'bottomleft', maxWidth: 100, metric: true, imperial: false, updateWhenIdle: false}}).addTo(map);
+        stackLayers();
+        map.on('overlayadd', restackLayers);
+        </script>
+    </body>
+</html>
