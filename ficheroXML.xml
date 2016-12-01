@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ficheroXSLT.xsl"?>
+<cities>
+  <city>
+    <name>Place1</name>
+    <coordinates>50.0515 14.2517</coordinates>
+    <surface>496</surface>
+    <population>1247000</population>
+  </city>
+  <city>
+    <name>Place2</name>
+    <coordinates>49.1143 16.3630</coordinates>
+    <surface>230</surface>
+    <population>378327</population>
+  </city>
+</cities>
